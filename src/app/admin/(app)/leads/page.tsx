@@ -30,6 +30,7 @@ export default function LeadsPage() {
   const [emailFilter, setEmailFilter] = useState<EmailFilter>("all");
   const [dragId, setDragId] = useState<string | null>(null);
   const [overCol, setOverCol] = useState<string | null>(null);
+  const [movingId, setMovingId] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
   const [adding, setAdding] = useState(false);
@@ -229,11 +230,15 @@ export default function LeadsPage() {
                 {colLeads.map((l) => (
                   <div
                     key={l.id}
-                    className={`kcard ${dragId === l.id ? "dragging" : ""}`}
+                    className={`kcard ${dragId === l.id ? "dragging" : ""} ${movingId === l.id ? "kcard-moving" : ""}`}
                     draggable
                     onDragStart={() => setDragId(l.id)}
                     onDragEnd={() => setDragId(null)}
-                    onClick={() => router.push(`/admin/leads/${l.id}`)}
+                    onClick={() => {
+                      if (movingId === l.id) return;
+                      if (movingId) { setMovingId(null); return; }
+                      router.push(`/admin/leads/${l.id}`);
+                    }}
                   >
                     <div className="kcard-name">{l.name}</div>
                     <div className="kcard-meta">
@@ -242,9 +247,50 @@ export default function LeadsPage() {
                     </div>
                     <div className="kcard-meta" style={{ justifyContent: "space-between" }}>
                       {l.rating != null ? <Stars rating={l.rating} /> : <span />}
-                      <span className="kcard-last">{relativeTime(l.updated_at)}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <span className="kcard-last">{relativeTime(l.updated_at)}</span>
+                        <button
+                          className="kcard-move-btn"
+                          title="Mover a otra columna"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setMovingId(movingId === l.id ? null : l.id);
+                          }}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/>
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                     {col.key === "closed" ? <StageChip stage={l.status} /> : null}
+
+                    {movingId === l.id && (
+                      <div className="kcard-mover" onClick={(e) => e.stopPropagation()}>
+                        <span className="kcard-mover-label">Mover a</span>
+                        <div className="kcard-mover-cols">
+                          {KANBAN_COLS.filter((c) => !c.statuses.includes(l.status)).map((c) => (
+                            <button
+                              key={c.key}
+                              className="kcard-mover-col"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                moveLead(l.id, c.key);
+                                setMovingId(null);
+                              }}
+                            >
+                              {c.label}
+                            </button>
+                          ))}
+                        </div>
+                        <button
+                          className="kcard-mover-cancel"
+                          onClick={(e) => { e.stopPropagation(); setMovingId(null); }}
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
