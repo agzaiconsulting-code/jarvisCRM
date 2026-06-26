@@ -102,7 +102,10 @@
   text-align: center;
   text-shadow: none;
   margin-bottom: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
+.logo:hover { opacity: 0.75; }
 .logo-sub {
   font-family: var(--font-space), sans-serif;
   font-size: 8.5px;
