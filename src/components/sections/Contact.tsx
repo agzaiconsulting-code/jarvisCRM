@@ -56,13 +56,13 @@ export default function Contact() {
           <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(255,255,255,.7)", margin: "20px 0 0", maxWidth: 430 }}>
             Cuéntame qué necesitas y te respondo en menos de 24 horas. Sin compromiso.
           </p>
-          <a href="mailto:hola@agzai.com" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 34, textDecoration: "none", color: "#fff" }}>
+          <a href="mailto:adrian.gomez@agzaiconsulting.com" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 34, textDecoration: "none", color: "#fff" }}>
             <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="var(--accent)" strokeWidth="1.8"/><path d="m4 7 8 6 8-6" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round"/></svg>
             </span>
             <span>
               <span style={{ display: "block", fontSize: 12.5, color: "rgba(255,255,255,.55)" }}>Escríbeme</span>
-              <span style={{ fontFamily: "var(--font-space)", fontWeight: 600, fontSize: 17 }}>hola@agzai.com</span>
+              <span style={{ fontFamily: "var(--font-space)", fontWeight: 600, fontSize: 17 }}>adrian.gomez@agzaiconsulting.com</span>
             </span>
           </a>
         </motion.div>
