@@ -26,8 +26,8 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="logo">JARVIS</div>
-      <div className="logo-sub">Prospection System</div>
+      <div className="logo">AGZAI</div>
+      <div className="logo-sub">CRM · Prospección</div>
       <nav className="nav">
         {NAV.map((item) => (
           <Link
