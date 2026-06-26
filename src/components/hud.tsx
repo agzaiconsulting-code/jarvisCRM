@@ -383,7 +383,7 @@ export function Funnel({ data }: { data: Array<{ key: string; label: string; val
         const pct = i === 0 ? 100 : (d.value / max) * 100;
         const c = colorAt(t);
         return (
-          <div key={d.key} style={{ display: "grid", gridTemplateColumns: "104px 1fr 110px", gap: 12, alignItems: "center" }}>
+          <div key={d.key} className="crm-funnel-row" style={{ display: "grid", gridTemplateColumns: "104px 1fr 110px", gap: 12, alignItems: "center" }}>
             <span
               style={{
                 fontFamily: "var(--font-display)",

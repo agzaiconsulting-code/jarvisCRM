@@ -127,7 +127,7 @@ export default function ScanPage() {
     <div>
       <ScreenHead title="Buscar leads" sub="MÓDULO DE ESCANEO · FUENTE: GOOGLE MAPS (APIFY)" />
 
-      <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: 16, alignItems: "start" }}>
+      <div className="crm-grid-scan">
         <HUDPanel title="Parámetros de escaneo" delay={0}>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <Field label="Categoría">

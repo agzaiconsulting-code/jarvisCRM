@@ -680,7 +680,7 @@ function TemplatesPanel({
           sub="Crea una plantilla con variables {{name}}, {{category}}, {{zone}}, {{sender}} para usarla en los pasos de las campañas."
         />
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "236px 1fr", gap: 22, alignItems: "start" }}>
+        <div className="crm-grid-campaign-detail">
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {templates.map((t) => {
               const sel = t.id === selectedId;

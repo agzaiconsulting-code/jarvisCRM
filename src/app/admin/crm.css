@@ -500,9 +500,131 @@ input[type="range"].hud-range::-moz-range-thumb { width: 12px; height: 12px; bac
   scrollbar-color: rgba(56, 189, 248, 0.25) transparent;
 }
 
-/* responsive */
+/* ── grid helpers (used by pages instead of inline styles) ── */
+.crm-grid-4   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+.crm-grid-2-1 { display: grid; grid-template-columns: 1.5fr 1fr;      gap: 16px; align-items: start; }
+.crm-grid-scan { display: grid; grid-template-columns: 380px 1fr;     gap: 16px; align-items: start; }
+.crm-grid-leads-filters { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-items: end; }
+.crm-grid-leads-search  { display: grid; grid-template-columns: 1fr 220px auto; gap: 14px; align-items: end; }
+.crm-grid-campaign-detail { display: grid; grid-template-columns: 236px 1fr; gap: 22px; align-items: start; }
+
+/* ── tablet ── */
 @media (max-width: 1100px) {
   .app { grid-template-columns: 64px 1fr; }
   .nav-item span, .logo-sub, .sidebar-foot .reactor-label { display: none; }
   .logo { font-size: 13px; letter-spacing: 0.1em; text-indent: 0.1em; }
+}
+
+/* ── mobile ── */
+@media (max-width: 768px) {
+
+  /* layout: sidebar goes to bottom tab bar */
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 60px;
+    height: 100%;
+  }
+  .main {
+    grid-row: 1;
+    grid-column: 1;
+    padding: 14px 12px 20px;
+    overflow-y: auto;
+  }
+  .sidebar {
+    grid-row: 2;
+    grid-column: 1;
+    flex-direction: row;
+    height: 60px;
+    padding: 0 4px;
+    border-right: none;
+    border-top: 1px solid var(--border-soft);
+    background: linear-gradient(0deg, rgba(5,8,16,0.97), rgba(13,25,48,0.92));
+    overflow: hidden;
+    gap: 0;
+  }
+  .logo, .logo-sub { display: none; }
+  .nav {
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-around;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav-item {
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px 2px;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 0;
+  }
+  .nav-item span { display: block; }
+  .nav-item svg { width: 18px; height: 18px; }
+  .sidebar-foot {
+    border-top: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    border-left: 1px solid var(--border-soft);
+  }
+  .sidebar-foot .reactor-status:first-child { display: none; }
+  .sidebar-foot button.reactor-status {
+    margin-top: 0 !important;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+  }
+  .sidebar-foot button .reactor-label { display: none; }
+
+  /* screen header stacks on mobile */
+  .screen-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .screen-title { font-size: 18px; letter-spacing: 0.1em; }
+
+  /* panels */
+  .hud-panel { padding: 12px 14px; }
+  .hud-panel-head { flex-wrap: wrap; gap: 8px; }
+
+  /* metrics */
+  .metric-value { font-size: 24px; }
+
+  /* dl list (lead detail) */
+  .dl { grid-template-columns: 80px 1fr; font-size: 12px; gap: 7px 10px; }
+
+  /* segs wrap */
+  .seg { flex-wrap: wrap; }
+
+  /* page grids → single column */
+  .crm-grid-4   { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .crm-grid-2-1 { grid-template-columns: 1fr; }
+  .crm-grid-scan { grid-template-columns: 1fr; }
+  .crm-grid-leads-filters { grid-template-columns: 1fr; }
+  .crm-grid-leads-search  { grid-template-columns: 1fr 1fr; }
+  .crm-grid-leads-search > *:last-child { grid-column: 1 / -1; }
+  .crm-grid-campaign-detail { grid-template-columns: 1fr; }
+
+  /* funnel row label column narrower */
+  .crm-funnel-row { grid-template-columns: 72px 1fr 80px !important; }
+
+  /* tables: hide less important columns via page-level overrides */
+  .hud-table th, .hud-table td { padding: 6px 8px; font-size: 11.5px; }
+
+  /* kanban already has overflow-x:auto, just tighten */
+  .kanban { gap: 10px; }
+  .kcol { min-width: 180px; }
 }

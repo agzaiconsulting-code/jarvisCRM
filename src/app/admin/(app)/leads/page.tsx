@@ -132,7 +132,7 @@ export default function LeadsPage() {
 
       {addOpen && (
         <HUDPanel title="Nuevo lead manual" delay={0} style={{ marginBottom: 16 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, alignItems: "end" }}>
+          <div className="crm-grid-leads-filters">
             <div className="field">
               <span className="field-label">Nombre *</span>
               <input type="text" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} autoFocus />
@@ -167,7 +167,7 @@ export default function LeadsPage() {
       )}
 
       <HUDPanel title="Filtros" delay={0} style={{ marginBottom: 16 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 220px auto", gap: 14, alignItems: "end" }}>
+        <div className="crm-grid-leads-search">
           <div className="field">
             <span className="field-label">Buscar</span>
             <input type="text" placeholder="Nombre o dirección…" value={search} onChange={(e) => setSearch(e.target.value)} />

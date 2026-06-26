@@ -204,7 +204,7 @@ export default function DashboardPage() {
         }
       />
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 16 }}>
+      <div className="crm-grid-4">
         <HUDPanel title="Total scrapeados" delay={0} hoverable>
           <div className="metric-value">
             <CountUp value={data.scraped} />
@@ -233,7 +233,7 @@ export default function DashboardPage() {
         </HUDPanel>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 16, alignItems: "start" }}>
+      <div className="crm-grid-2-1">
         <HUDPanel title="Embudo de conversión" delay={240}>
           {data.scraped === 0 ? (
             <EmptyState title="Sin datos" sub="Lanza un escaneo para empezar a llenar el embudo." />
