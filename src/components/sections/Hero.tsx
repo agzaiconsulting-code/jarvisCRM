@@ -50,7 +50,7 @@ export default function Hero() {
             }}
           >
             Construyo tu producto<br />
-            con{" "}
+            con ayuda de la{" "}
             <span style={{ fontStyle: "italic", position: "relative" }}>
               IA
               <span style={{ position: "absolute", left: 0, right: 0, bottom: 6, height: 10, background: "var(--accent)", opacity: .32, zIndex: -1, borderRadius: 2 }} />
