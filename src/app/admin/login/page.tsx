@@ -40,17 +40,22 @@ export default function LoginPage() {
 
         {/* Header */}
         <div style={{ textAlign: "center" }}>
-          <div style={{
-            fontFamily: "var(--font-cormorant)",
-            fontWeight: 600,
-            fontSize: 40,
-            letterSpacing: "0.14em",
-            color: "var(--crm-navy)",
-            lineHeight: 1,
-            marginBottom: 8,
-          }}>
+          <a
+            href="/"
+            style={{
+              fontFamily: "var(--font-cormorant)",
+              fontWeight: 600,
+              fontSize: 40,
+              letterSpacing: "0.14em",
+              color: "var(--crm-navy)",
+              lineHeight: 1,
+              marginBottom: 8,
+              display: "block",
+              textDecoration: "none",
+            }}
+          >
             AGZAI
-          </div>
+          </a>
           <p style={{
             fontFamily: "var(--font-space)",
             fontSize: 10,
