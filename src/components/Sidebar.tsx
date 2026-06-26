@@ -26,7 +26,7 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="logo">AGZAI</div>
+      <Link href="/" className="logo" style={{ textDecoration: "none" }}>AGZAI</Link>
       <div className="logo-sub">CRM · Prospección</div>
       <nav className="nav">
         {NAV.map((item) => (
