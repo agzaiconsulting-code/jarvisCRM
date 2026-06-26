@@ -7,10 +7,28 @@ export default function Contact() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setLoading(true);
+    setError(null);
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: nameRef.current?.value,
+        email: emailRef.current?.value,
+        message: messageRef.current?.value,
+      }),
+    });
+    setLoading(false);
+    if (res.ok) setSent(true);
+    else setError("No se pudo enviar. Inténtalo de nuevo.");
   };
 
   return (
@@ -67,6 +85,7 @@ export default function Contact() {
               <label style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                 <span style={{ fontFamily: "var(--font-space)", fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,.7)" }}>Nombre</span>
                 <input
+                  ref={nameRef}
                   required type="text" placeholder="Tu nombre"
                   style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 11, padding: "13px 15px", color: "#fff", fontSize: 15, outline: "none", transition: "border-color .2s" }}
                   onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
@@ -76,6 +95,7 @@ export default function Contact() {
               <label style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                 <span style={{ fontFamily: "var(--font-space)", fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,.7)" }}>Email</span>
                 <input
+                  ref={emailRef}
                   required type="email" placeholder="tu@email.com"
                   style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 11, padding: "13px 15px", color: "#fff", fontSize: 15, outline: "none", transition: "border-color .2s" }}
                   onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
@@ -85,20 +105,25 @@ export default function Contact() {
               <label style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                 <span style={{ fontFamily: "var(--font-space)", fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,.7)" }}>¿Qué necesitas?</span>
                 <textarea
+                  ref={messageRef}
                   rows={4} placeholder="Cuéntame brevemente tu proyecto..."
                   style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 11, padding: "13px 15px", color: "#fff", fontSize: 15, outline: "none", resize: "vertical", transition: "border-color .2s" }}
                   onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
                   onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.15)")}
                 />
               </label>
+              {error && (
+                <p style={{ color: "#ff6b6b", fontSize: 13.5, margin: 0 }}>{error}</p>
+              )}
               <button
                 type="submit"
-                style={{ marginTop: 6, background: "var(--accent)", color: "var(--navy-deep)", fontWeight: 700, fontSize: 16, border: "none", padding: 15, borderRadius: 11, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 9, transition: "transform .2s ease, box-shadow .2s ease" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 30px rgba(57,211,156,.45)"; }}
+                disabled={loading}
+                style={{ marginTop: 6, background: "var(--accent)", color: "var(--navy-deep)", fontWeight: 700, fontSize: 16, border: "none", padding: 15, borderRadius: 11, cursor: loading ? "default" : "pointer", opacity: loading ? 0.7 : 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 9, transition: "transform .2s ease, box-shadow .2s ease" }}
+                onMouseEnter={(e) => { if (!loading) { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 30px rgba(57,211,156,.45)"; } }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "none"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
               >
-                Enviar mensaje
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                {loading ? "Enviando…" : "Enviar mensaje"}
+                {!loading && <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
               </button>
             </form>
           )}
