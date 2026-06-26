@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-navy: #0a1c66;
+  --color-navy-deep: #070f33;
+  --color-emerald: #39d39c;
+  --color-cyan-accent: #3bcfe0;
+  --color-paper: #f5f5f3;
+  --color-ink: #0b1330;
+  --color-muted: #5a6079;
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-hanken);
+  --font-label: var(--font-space);
+}
+
+:root {
+  --navy: #0a1c66;
+  --navy-deep: #070f33;
+  --navy-2: #0d1f57;
+  --emerald: #39d39c;
+  --cyan: #3bcfe0;
+  --paper: #f5f5f3;
+  --paper-2: #eeeeec;
+  --ink: #0b1330;
+  --muted: #5a6079;
+  --line: rgba(10, 28, 102, 0.12);
+  --accent: #39d39c;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--emerald); color: var(--navy-deep); }
+input, textarea, button { font-family: inherit; }
+
+@keyframes pulseNode {
+  0%, 100% { transform: scale(1); opacity: .85; }
+  50% { transform: scale(1.35); opacity: 1; }
+}
+@keyframes blink {
+  0%, 100% { opacity: .25; }
+  50% { opacity: 1; }
+}
+@keyframes scrollDot {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(16px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; }
+}
