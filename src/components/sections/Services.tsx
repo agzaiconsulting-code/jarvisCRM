@@ -10,6 +10,7 @@ const services = [
     ),
     iconBg: "rgba(57,211,156,.12)",
     title: "Automatizaciones",
+    price: "Desde 300€",
     desc: "Conecto tus herramientas y dejo que los procesos repetitivos se hagan solos.",
     tags: ["Make", "Zapier", "n8n", "APIs"],
     dark: false,
@@ -20,7 +21,8 @@ const services = [
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="13" rx="3" stroke="var(--navy)" strokeWidth="1.8"/><circle cx="9" cy="11.5" r="1.4" fill="#3bcfe0"/><circle cx="15" cy="11.5" r="1.4" fill="#39d39c"/><path d="M12 18v3M9 21h6" stroke="var(--navy)" strokeWidth="1.8" strokeLinecap="round"/></svg>
     ),
     iconBg: "rgba(59,207,224,.14)",
-    title: "Bots con IA",
+    title: "Agentes de IA",
+    price: "Desde 1.500€",
     desc: "Asistentes que atienden, responden y venden por ti las 24 horas.",
     tags: ["WhatsApp", "Web", "Voz"],
     dark: false,
@@ -32,6 +34,7 @@ const services = [
     ),
     iconBg: "rgba(57,211,156,.12)",
     title: "Landing pages",
+    price: "Desde 500€",
     desc: "Páginas que cargan rápido, se ven impecables y convierten visitas en clientes.",
     tags: ["Diseño", "Copy", "SEO"],
     dark: false,
@@ -43,6 +46,7 @@ const services = [
     ),
     iconBg: "rgba(59,207,224,.14)",
     title: "Webs de reservas",
+    price: "Desde 1.500€",
     desc: "Sistemas de citas online que llenan tu agenda sin llamadas ni fricción.",
     tags: ["Calendario", "Pagos", "Recordatorios"],
     dark: false,
@@ -54,6 +58,7 @@ const services = [
     ),
     iconBg: "rgba(255,255,255,.1)",
     title: "CRMs a medida",
+    price: "Desde 2.000€",
     desc: "Tu negocio organizado en un solo lugar, adaptado a cómo trabajas de verdad.",
     tags: ["Clientes", "Pipeline", "Reporting"],
     dark: true,
@@ -150,7 +155,10 @@ function ServiceCard({ service, index, inView }: { service: (typeof services)[0]
           {service.icon}
         </div>
         <h3 style={{ fontFamily: "var(--font-space)", fontSize: 21, fontWeight: 600, color: "#fff", margin: 0, position: "relative" }}>{service.title}</h3>
-        <p style={{ fontSize: 15.5, lineHeight: 1.55, color: "rgba(255,255,255,.72)", margin: "12px 0 18px", position: "relative" }}>{service.desc}</p>
+        <p style={{ fontSize: 15.5, lineHeight: 1.55, color: "rgba(255,255,255,.72)", margin: "12px 0 14px", position: "relative" }}>{service.desc}</p>
+        {service.price && (
+          <p style={{ fontFamily: "var(--font-space)", fontSize: 13, fontWeight: 600, color: "var(--emerald)", margin: "0 0 16px", letterSpacing: ".04em", position: "relative" }}>{service.price}</p>
+        )}
         <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 7, position: "relative" }}>
           {service.tags.map((t) => (
             <span key={t} style={{ fontFamily: "var(--font-space)", fontSize: 12, fontWeight: 500, color: "#fff", background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", padding: "5px 11px", borderRadius: 999 }}>{t}</span>
@@ -172,7 +180,10 @@ function ServiceCard({ service, index, inView }: { service: (typeof services)[0]
         {service.icon}
       </div>
       <h3 style={{ fontFamily: "var(--font-space)", fontSize: 21, fontWeight: 600, color: "var(--navy)", margin: 0 }}>{service.title}</h3>
-      <p style={{ fontSize: 15.5, lineHeight: 1.55, color: "var(--muted)", margin: "12px 0 18px" }}>{service.desc}</p>
+      <p style={{ fontSize: 15.5, lineHeight: 1.55, color: "var(--muted)", margin: "12px 0 14px" }}>{service.desc}</p>
+      {service.price && (
+        <p style={{ fontFamily: "var(--font-space)", fontSize: 13, fontWeight: 600, color: "var(--accent)", margin: "0 0 16px", letterSpacing: ".04em" }}>{service.price}</p>
+      )}
       <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 7 }}>
         {service.tags.map((t) => (
           <span key={t} style={{ fontFamily: "var(--font-space)", fontSize: 12, fontWeight: 500, color: "var(--navy)", background: "var(--paper)", border: "1px solid var(--line)", padding: "5px 11px", borderRadius: 999 }}>{t}</span>
