@@ -233,7 +233,7 @@ export default function LeadsPage() {
                     draggable
                     onDragStart={() => setDragId(l.id)}
                     onDragEnd={() => setDragId(null)}
-                    onClick={() => router.push(`/leads/${l.id}`)}
+                    onClick={() => router.push(`/admin/leads/${l.id}`)}
                   >
                     <div className="kcard-name">{l.name}</div>
                     <div className="kcard-meta">
@@ -268,7 +268,7 @@ export default function LeadsPage() {
             </thead>
             <tbody>
               {filtered.map((l) => (
-                <tr key={l.id} onClick={() => router.push(`/leads/${l.id}`)} style={{ cursor: "pointer" }}>
+                <tr key={l.id} onClick={() => router.push(`/admin/leads/${l.id}`)} style={{ cursor: "pointer" }}>
                   <td>{l.name}</td>
                   <td>{l.category ?? "—"}</td>
                   <td>{l.address ?? "—"}</td>

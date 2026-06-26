@@ -163,7 +163,7 @@ export default function LeadDetailPage() {
     setDeleting(true);
     const supabase = createClient();
     await supabase.from("leads").delete().eq("id", lead.id);
-    router.push("/leads");
+    router.push("/admin/leads");
   }
 
   if (lead === undefined) {
@@ -180,7 +180,7 @@ export default function LeadDetailPage() {
         <EmptyState
           title="Lead no encontrado"
           sub="El registro no existe o fue eliminado."
-          action={<Btn variant="ghost" sm onClick={() => router.push("/leads")}>← Volver al pipeline</Btn>}
+          action={<Btn variant="ghost" sm onClick={() => router.push("/admin/leads")}>← Volver al pipeline</Btn>}
         />
       </HUDPanel>
     );
@@ -194,7 +194,7 @@ export default function LeadDetailPage() {
         right={
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
             <StageChip stage={lead.status} />
-            <Btn variant="ghost" sm onClick={() => router.push("/leads")}>
+            <Btn variant="ghost" sm onClick={() => router.push("/admin/leads")}>
               ← Pipeline
             </Btn>
           </div>

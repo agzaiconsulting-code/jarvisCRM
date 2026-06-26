@@ -198,7 +198,7 @@ export default function ScanPage() {
                 <Chip color="ok">
                   {resultsCount} leads nuevos · {emailsFound} emails
                 </Chip>
-                <a href="/leads">
+                <a href="/admin/leads">
                   <Btn variant="blue" sm>
                     Ver en pipeline →
                   </Btn>
