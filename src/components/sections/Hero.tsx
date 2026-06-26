@@ -51,9 +51,14 @@ export default function Hero() {
           >
             Construyo tu producto<br />
             con ayuda de la{" "}
-            <span style={{ fontStyle: "italic", position: "relative" }}>
+            <span style={{
+              fontStyle: "italic",
+              background: "linear-gradient(135deg, var(--navy) 0%, var(--emerald) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>
               IA
-              <span style={{ position: "absolute", left: 0, right: 0, bottom: 6, height: 10, background: "var(--accent)", opacity: .32, zIndex: -1, borderRadius: 2 }} />
             </span>
             .
           </motion.h1>

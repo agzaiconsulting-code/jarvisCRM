@@ -13,7 +13,10 @@ export default function NetworkCanvas({ density = 64 }: { density?: number }) {
     if (!ctx) return;
 
     let w = 0, h = 0, dpr = 1;
-    const COLORS = { navy: "10,28,102", em: "57,211,156", cy: "59,207,224" };
+    const NAVY = "10,28,102";
+    const EM   = "57,211,156";
+    const CY   = "59,207,224";
+
     type Node = { x: number; y: number; vx: number; vy: number; r: number; c: string; accent: boolean };
     let nodes: Node[] = [];
     const mouse = { x: -9999, y: -9999 };
@@ -24,16 +27,16 @@ export default function NetworkCanvas({ density = 64 }: { density?: number }) {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.max(24, Math.min(90, Math.round((w * h) / 16000 * (density / 64))));
+      const count = Math.max(30, Math.min(110, Math.round((w * h) / 13000 * (density / 64))));
       nodes = [];
       for (let i = 0; i < count; i++) {
         const t = Math.random();
-        const c = t > 0.86 ? COLORS.em : t > 0.74 ? COLORS.cy : COLORS.navy;
-        const accent = c !== COLORS.navy;
+        const c = t > 0.82 ? EM : t > 0.68 ? CY : NAVY;
+        const accent = c !== NAVY;
         nodes.push({
           x: Math.random() * w, y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
-          r: accent ? 2.6 + Math.random() * 1.6 : 1.4 + Math.random() * 1.2,
+          vx: (Math.random() - 0.5) * 0.32, vy: (Math.random() - 0.5) * 0.32,
+          r: accent ? 3.2 + Math.random() * 2.2 : 1.8 + Math.random() * 1.4,
           c, accent,
         });
       }
@@ -41,35 +44,70 @@ export default function NetworkCanvas({ density = 64 }: { density?: number }) {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      const LINK = 150;
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        if (!reduce) {
+
+      if (!reduce) {
+        const REPULSE_R = 210;
+        const REPULSE_F = 5.8;
+        for (const a of nodes) {
           a.x += a.vx; a.y += a.vy;
           if (a.x < 0 || a.x > w) a.vx *= -1;
           if (a.y < 0 || a.y > h) a.vy *= -1;
           const dxm = a.x - mouse.x, dym = a.y - mouse.y;
           const dm = Math.hypot(dxm, dym);
-          if (dm < 130 && dm > 0.1) {
-            a.x += (dxm / dm) * (1 - dm / 130) * 1.6;
-            a.y += (dym / dm) * (1 - dm / 130) * 1.6;
+          if (dm < REPULSE_R && dm > 0.5) {
+            const force = (1 - dm / REPULSE_R) * REPULSE_F;
+            a.x += (dxm / dm) * force;
+            a.y += (dym / dm) * force;
           }
         }
+      }
+
+      // node–node connections
+      const LINK = 165;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
           const b = nodes[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
           if (dist < LINK) {
-            ctx.strokeStyle = `rgba(${COLORS.navy},${(1 - dist / LINK) * 0.16})`;
+            ctx.strokeStyle = `rgba(${NAVY},${(1 - dist / LINK) * 0.16})`;
             ctx.lineWidth = 1;
             ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
           }
         }
       }
+
+      // cursor halo + attraction lines
+      if (mouse.x > -100 && !reduce) {
+        // radial glow at cursor
+        const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 100);
+        grad.addColorStop(0, `rgba(${EM},0.14)`);
+        grad.addColorStop(1, `rgba(${EM},0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 100, 0, Math.PI * 2); ctx.fill();
+
+        // lines to 5 nearest nodes
+        const near = nodes
+          .map(n => ({ n, d: Math.hypot(n.x - mouse.x, n.y - mouse.y) }))
+          .filter(({ d }) => d < 300)
+          .sort((a, b) => a.d - b.d)
+          .slice(0, 5);
+        for (const { n, d } of near) {
+          ctx.strokeStyle = `rgba(${EM},${(1 - d / 300) * 0.32})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+        }
+      }
+
+      // draw nodes
       for (const n of nodes) {
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        if (n.accent) { ctx.shadowColor = `rgba(${n.c},.9)`; ctx.shadowBlur = 12; ctx.fillStyle = `rgba(${n.c},1)`; }
-        else { ctx.shadowBlur = 0; ctx.fillStyle = `rgba(${n.c},.55)`; }
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        if (n.accent) {
+          ctx.shadowColor = `rgba(${n.c},.85)`; ctx.shadowBlur = 14;
+          ctx.fillStyle = `rgba(${n.c},1)`;
+        } else {
+          ctx.shadowBlur = 0; ctx.fillStyle = `rgba(${n.c},.48)`;
+        }
         ctx.fill();
       }
       ctx.shadowBlur = 0;
@@ -78,19 +116,25 @@ export default function NetworkCanvas({ density = 64 }: { density?: number }) {
 
     build(); draw();
 
-    const onResize = () => build();
-    const onMove = (e: MouseEvent) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-    const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
+    const onResize  = () => build();
+    const onMove    = (e: MouseEvent)  => { mouse.x = e.clientX; mouse.y = e.clientY; };
+    const onLeave   = () => { mouse.x = -9999; mouse.y = -9999; };
+    const onTouch   = (e: TouchEvent)  => { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } };
+    const onTouchEnd = () => { mouse.x = -9999; mouse.y = -9999; };
 
-    window.addEventListener("resize", onResize);
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseout", onLeave, { passive: true });
+    window.addEventListener("resize",     onResize);
+    window.addEventListener("mousemove",  onMove,     { passive: true });
+    window.addEventListener("mouseout",   onLeave,    { passive: true });
+    window.addEventListener("touchmove",  onTouch,    { passive: true });
+    window.addEventListener("touchend",   onTouchEnd, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize",    onResize);
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseout", onLeave);
+      window.removeEventListener("mouseout",  onLeave);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("touchend",  onTouchEnd);
     };
   }, [density]);
 
