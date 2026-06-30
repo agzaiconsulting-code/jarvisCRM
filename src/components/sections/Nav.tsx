@@ -39,7 +39,7 @@ export default function Nav() {
     >
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
         <a href="#top" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-          <Image src="/logo.jpeg" alt="AGZAI logo" width={52} height={52} style={{ borderRadius: 10, objectFit: "contain" }} priority />
+          <Image src="/logo.jpeg" alt="AGZAI logo" width={90} height={90} style={{ borderRadius: 12, objectFit: "contain" }} priority />
         </a>
 
         {/* Desktop */}
