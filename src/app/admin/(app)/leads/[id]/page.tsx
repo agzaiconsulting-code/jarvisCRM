@@ -52,6 +52,9 @@ export default function LeadDetailPage() {
   const [addingCampaign, setAddingCampaign] = useState(false);
   const [campaignMsg, setCampaignMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [emailEdit, setEmailEdit] = useState("");
+  const [emailSaving, setEmailSaving] = useState(false);
+  const [emailSaved, setEmailSaved] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
@@ -63,6 +66,7 @@ export default function LeadDetailPage() {
       .then(({ data }) => {
         setLead((data as Lead) ?? null);
         setNotes((data as Lead | null)?.notes ?? "");
+        setEmailEdit((data as Lead | null)?.email ?? "");
       });
     supabase
       .from("activity_log")
@@ -157,6 +161,25 @@ export default function LeadDetailPage() {
     setAddingCampaign(false);
   }
 
+  async function saveEmail() {
+    if (!lead) return;
+    setEmailSaving(true);
+    const supabase = createClient();
+    const email = emailEdit.trim() || null;
+    await supabase
+      .from("leads")
+      .update({
+        email,
+        email_source: email ? "manual" : null,
+        enrichment_status: email ? "done" : "no_email",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", lead.id);
+    setLead({ ...lead, email, email_source: email ? "manual" : null });
+    setEmailSaving(false);
+    setEmailSaved(true);
+  }
+
   async function deleteLead() {
     if (!lead) return;
     if (!confirm(`¿Eliminar "${lead.name}" del CRM? Esta acción no se puede deshacer.`)) return;
@@ -223,14 +246,34 @@ export default function LeadDetailPage() {
               </dd>
               <dt>Email</dt>
               <dd>
-                {lead.email ? (
-                  <span style={{ display: "inline-flex", gap: 8, alignItems: "center" }}>
-                    {lead.email}
-                    <Chip color="dim">{lead.email_source ?? "—"}</Chip>
-                  </span>
-                ) : (
-                  <Chip color="danger">sin email</Chip>
-                )}
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                    <input
+                      type="email"
+                      value={emailEdit}
+                      onChange={(e) => { setEmailEdit(e.target.value); setEmailSaved(false); }}
+                      placeholder="email@ejemplo.com"
+                      style={{ flex: 1, background: "#fff", border: "1px solid var(--crm-line)", borderRadius: 6, color: "var(--crm-ink)", fontFamily: "var(--font-hanken)", fontSize: 13, padding: "5px 9px", outline: "none" }}
+                      onKeyDown={(e) => e.key === "Enter" && saveEmail()}
+                    />
+                    <Btn variant="blue" sm onClick={saveEmail} disabled={emailSaving || emailSaved}>
+                      {emailSaving ? "…" : emailSaved ? "✓" : "Guardar"}
+                    </Btn>
+                  </div>
+                  {lead.email && (
+                    <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                      <Chip color={lead.email_source === "manual" ? "blue" : "dim"}>
+                        {lead.email_source ?? "—"}
+                      </Chip>
+                      {(lead.unsubscribed || lead.bounced) && (
+                        <>
+                          {lead.unsubscribed ? <Chip color="danger">baja</Chip> : null}
+                          {lead.bounced ? <Chip color="danger">rebotado</Chip> : null}
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
               </dd>
               <dt>Rating</dt>
               <dd>
@@ -246,12 +289,6 @@ export default function LeadDetailPage() {
               <dt>Capturado</dt>
               <dd style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>{relativeTime(lead.created_at)}</dd>
             </dl>
-            {(lead.unsubscribed || lead.bounced) && (
-              <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
-                {lead.unsubscribed ? <Chip color="danger">Baja (no contactar)</Chip> : null}
-                {lead.bounced ? <Chip color="danger">Email rebotado</Chip> : null}
-              </div>
-            )}
           </HUDPanel>
 
           <HUDPanel
