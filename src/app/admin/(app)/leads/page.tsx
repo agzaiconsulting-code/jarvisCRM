@@ -204,17 +204,16 @@ export default function LeadsPage() {
           />
         </HUDPanel>
       ) : view === "kanban" ? (
-        <div className="kanban">
+        <div className="kanban" onClick={() => movingId && setMovingId(null)}>
           {KANBAN_COLS.map((col) => {
             const colLeads = filtered.filter((l) => col.statuses.includes(l.status));
+            const movingLead = movingId ? leads?.find((l) => l.id === movingId) : null;
+            const isCurrentCol = movingLead ? col.statuses.includes(movingLead.status) : false;
             return (
               <div
                 key={col.key}
-                className={`kcol ${overCol === col.key ? "dragover" : ""}`}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setOverCol(col.key);
-                }}
+                className={`kcol ${overCol === col.key ? "dragover" : ""} ${movingId && !isCurrentCol ? "is-drop-target" : ""}`}
+                onDragOver={(e) => { e.preventDefault(); setOverCol(col.key); }}
                 onDragLeave={() => setOverCol(null)}
                 onDrop={(e) => {
                   e.preventDefault();
@@ -222,11 +221,26 @@ export default function LeadsPage() {
                   if (dragId) moveLead(dragId, col.key);
                   setDragId(null);
                 }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="kcol-head">
                   <span>{col.label}</span>
                   <span className="kcol-count">{colLeads.length}</span>
                 </div>
+
+                {movingId && !isCurrentCol && (
+                  <button
+                    className="kcol-drop-zone"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      moveLead(movingId, col.key);
+                      setMovingId(null);
+                    }}
+                  >
+                    ↓ Mover aquí
+                  </button>
+                )}
+
                 {colLeads.map((l) => (
                   <div
                     key={l.id}
@@ -235,7 +249,7 @@ export default function LeadsPage() {
                     onDragStart={() => setDragId(l.id)}
                     onDragEnd={() => setDragId(null)}
                     onClick={() => {
-                      if (movingId === l.id) return;
+                      if (movingId === l.id) { setMovingId(null); return; }
                       if (movingId) { setMovingId(null); return; }
                       router.push(`/admin/leads/${l.id}`);
                     }}
@@ -264,33 +278,6 @@ export default function LeadsPage() {
                       </div>
                     </div>
                     {col.key === "closed" ? <StageChip stage={l.status} /> : null}
-
-                    {movingId === l.id && (
-                      <div className="kcard-mover" onClick={(e) => e.stopPropagation()}>
-                        <span className="kcard-mover-label">Mover a</span>
-                        <div className="kcard-mover-cols">
-                          {KANBAN_COLS.filter((c) => !c.statuses.includes(l.status)).map((c) => (
-                            <button
-                              key={c.key}
-                              className="kcard-mover-col"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                moveLead(l.id, c.key);
-                                setMovingId(null);
-                              }}
-                            >
-                              {c.label}
-                            </button>
-                          ))}
-                        </div>
-                        <button
-                          className="kcard-mover-cancel"
-                          onClick={(e) => { e.stopPropagation(); setMovingId(null); }}
-                        >
-                          Cancelar
-                        </button>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>

@@ -504,15 +504,16 @@ input[type="range"].hud-range::-moz-range-thumb { width: 14px; height: 14px; bac
   grid-auto-flow: column;
   grid-auto-columns: minmax(200px, 1fr);
   gap: 12px;
-  align-items: start;
+  align-items: stretch;
   overflow-x: auto;
+  min-height: calc(100vh - 260px);
   padding-bottom: 12px;
 }
 .kcol {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 80px;
+  min-height: 100%;
   border-radius: 10px;
   padding: 4px;
   transition: background 0.15s;
@@ -521,6 +522,30 @@ input[type="range"].hud-range::-moz-range-thumb { width: 14px; height: 14px; bac
   background: rgba(57, 211, 156, 0.07);
   outline: 1.5px dashed rgba(57, 211, 156, 0.45);
 }
+.kcol.is-drop-target {
+  background: rgba(57, 211, 156, 0.04);
+  outline: 1.5px dashed rgba(57, 211, 156, 0.3);
+}
+.kcol-drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 11px 8px;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(57, 211, 156, 0.55);
+  background: rgba(57, 211, 156, 0.06);
+  color: #157a57;
+  font-family: var(--font-space), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  flex: none;
+}
+.kcol-drop-zone:hover { background: rgba(57, 211, 156, 0.14); border-color: var(--crm-emerald); color: var(--crm-emerald); }
 .kcol-head {
   display: flex;
   align-items: center;
@@ -548,9 +573,9 @@ input[type="range"].hud-range::-moz-range-thumb { width: 14px; height: 14px; bac
   box-shadow: 0 0 0 2px rgba(10, 28, 102, 0.12), 0 4px 16px rgba(10, 28, 102, 0.1) !important;
 }
 
-/* move button — hidden on desktop, shown on mobile */
+/* move button */
 .kcard-move-btn {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   background: none;
