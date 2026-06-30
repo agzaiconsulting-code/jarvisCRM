@@ -56,15 +56,26 @@ export default function Contact() {
           <p style={{ fontSize: 18, lineHeight: 1.6, color: "rgba(255,255,255,.7)", margin: "20px 0 0", maxWidth: 430 }}>
             Cuéntame qué necesitas y te respondo en menos de 24 horas. Sin compromiso.
           </p>
-          <a href="mailto:adrian.gomez@agzaiconsulting.com" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 34, textDecoration: "none", color: "#fff" }}>
-            <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="var(--accent)" strokeWidth="1.8"/><path d="m4 7 8 6 8-6" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round"/></svg>
-            </span>
-            <span>
-              <span style={{ display: "block", fontSize: 12.5, color: "rgba(255,255,255,.55)" }}>Escríbeme</span>
-              <span style={{ fontFamily: "var(--font-space)", fontWeight: 600, fontSize: 17 }}>adrian.gomez@agzaiconsulting.com</span>
-            </span>
-          </a>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 34 }}>
+            <a href="mailto:adrian.gomez@agzaiconsulting.com" style={{ display: "inline-flex", alignItems: "center", gap: 12, textDecoration: "none", color: "#fff" }}>
+              <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="var(--accent)" strokeWidth="1.8"/><path d="m4 7 8 6 8-6" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round"/></svg>
+              </span>
+              <span>
+                <span style={{ display: "block", fontSize: 12.5, color: "rgba(255,255,255,.55)" }}>Escríbeme</span>
+                <span style={{ fontFamily: "var(--font-space)", fontWeight: 600, fontSize: 17 }}>adrian.gomez@agzaiconsulting.com</span>
+              </span>
+            </a>
+            <a href="tel:+34638332989" style={{ display: "inline-flex", alignItems: "center", gap: 12, textDecoration: "none", color: "#fff" }}>
+              <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+              <span>
+                <span style={{ display: "block", fontSize: 12.5, color: "rgba(255,255,255,.55)" }}>Llámame</span>
+                <span style={{ fontFamily: "var(--font-space)", fontWeight: 600, fontSize: 17 }}>+34 638 332 989</span>
+              </span>
+            </a>
+          </div>
         </motion.div>
 
         <motion.div
