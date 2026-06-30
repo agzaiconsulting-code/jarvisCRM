@@ -17,6 +17,6 @@ export async function POST(req: Request) {
     html: `<p><strong>Nombre:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message.replace(/\n/g, "<br>")}</p>`,
   });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: error.message, detail: JSON.stringify(error) }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

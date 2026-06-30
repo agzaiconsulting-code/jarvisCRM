@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import Logo from "@/components/ui/Logo";
+import Image from "next/image";
 
 const bullets = [
   { color: "var(--emerald)", text: "Trato directo, sin intermediarios ni departamentos." },
@@ -52,13 +52,14 @@ export default function About() {
           transition={{ duration: 0.8, delay: 0.12, ease: [0.2, 0.7, 0.2, 1] }}
           style={{ position: "relative" }}
         >
-          <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", border: "1px solid var(--line)", background: "repeating-linear-gradient(135deg, #e7e7e4 0 14px, #f0f0ee 14px 28px)", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-            <div style={{ position: "absolute", top: 18, left: 18, fontFamily: "var(--font-space)", fontSize: 12, letterSpacing: ".05em", color: "#9a9aab", background: "rgba(255,255,255,.7)", padding: "5px 10px", borderRadius: 6 }}>
-              tu_foto.jpg
-            </div>
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Logo size={60} className="opacity-50" />
-            </div>
+          <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", border: "1px solid var(--line)" }}>
+            <Image
+              src="/fotoprofesional.png"
+              alt="Foto profesional AGZAI"
+              fill
+              style={{ objectFit: "cover", objectPosition: "center top" }}
+              priority
+            />
           </div>
           <div style={{ position: "absolute", bottom: -22, left: -22, background: "#fff", border: "1px solid var(--line)", borderRadius: 16, padding: "16px 20px", boxShadow: "0 16px 40px rgba(10,28,102,.12)", display: "flex", alignItems: "center", gap: 13 }}>
             <div style={{ width: 42, height: 42, borderRadius: 12, background: "var(--navy)", display: "flex", alignItems: "center", justifyContent: "center" }}>
