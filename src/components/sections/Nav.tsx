@@ -38,11 +38,8 @@ export default function Nav() {
       aria-label="Navegación principal"
     >
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-        <a href="#top" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
-          <Image src="/logo.jpeg" alt="AGZAI logo" width={36} height={36} style={{ borderRadius: 8, objectFit: "contain" }} priority />
-          <span style={{ fontFamily: "var(--font-cormorant)", fontWeight: 600, fontSize: 28, letterSpacing: ".14em", color: "var(--navy)", lineHeight: 1 }}>
-            AGZAI
-          </span>
+        <a href="#top" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+          <Image src="/logo.jpeg" alt="AGZAI logo" width={52} height={52} style={{ borderRadius: 10, objectFit: "contain" }} priority />
         </a>
 
         {/* Desktop */}
