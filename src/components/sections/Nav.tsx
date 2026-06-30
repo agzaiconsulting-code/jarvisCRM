@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import Logo from "@/components/ui/Logo";
+import Image from "next/image";
 
 const links = [
   { label: "Servicios", href: "#servicios" },
@@ -39,7 +39,7 @@ export default function Nav() {
     >
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
         <a href="#top" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
-          <Logo size={30} />
+          <Image src="/logo.jpeg" alt="AGZAI logo" width={36} height={36} style={{ borderRadius: 8, objectFit: "contain" }} priority />
           <span style={{ fontFamily: "var(--font-cormorant)", fontWeight: 600, fontSize: 28, letterSpacing: ".14em", color: "var(--navy)", lineHeight: 1 }}>
             AGZAI
           </span>
